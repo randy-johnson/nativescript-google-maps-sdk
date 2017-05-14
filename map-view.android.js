@@ -146,7 +146,7 @@ var MapView = (function(_super) {
                         }
                         if (cameraChanged) {
                             var bounds = gMap.getProjection().getVisibleRegion().latLngBounds;
-                            owner.notifyCameraEvent(map_view_common_1.MapView.cameraChangedEvent, {
+                            owner.notifyCameraEvent(map_view_common_1.MapViewBase.cameraChangedEvent, {
                                 latitude: cameraPosition.target.latitude,
                                 longitude: cameraPosition.target.longitude,
                                 zoom: cameraPosition.zoom,
@@ -155,6 +155,7 @@ var MapView = (function(_super) {
                                 bounds: {
                                     northeast: Position.positionFromLatLng(bounds.northeast.latitude, bounds.northeast.longitude),
                                     southwest: Position.positionFromLatLng(bounds.southwest.latitude, bounds.southwest.longitude),
+                                    randy: 'yes1',
                                     bounds: {
                                         northeast_latitude: bounds.northeast.latitude,
                                         northeast_longitude: bounds.northeast.longitude,

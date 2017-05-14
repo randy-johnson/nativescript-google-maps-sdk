@@ -161,12 +161,17 @@ export class MapView extends MapViewBase {
                         }
 
                         if (cameraChanged) {
+                            let bounds = gMap.getProjection().getVisibleRegion().latLngBounds;
                             owner.notifyCameraEvent(MapViewBase.cameraChangedEvent, {
                                 latitude: cameraPosition.target.latitude,
                                 longitude: cameraPosition.target.longitude,
                                 zoom: cameraPosition.zoom,
                                 bearing: cameraPosition.bearing,
-                                tilt: cameraPosition.tilt
+                                tilt: cameraPosition.tilt,
+                                bounds: {
+                                    northeast: Position.positionFromLatLng(bounds.northeast.latitude, bounds.northeast.longitude),
+                                    southwest: Position.positionFromLatLng(bounds.southwest.latitude, bounds.southwest.longitude)
+                                }
                             });
                         }
 

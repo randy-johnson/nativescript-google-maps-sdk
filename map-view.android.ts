@@ -161,23 +161,14 @@ export class MapView extends MapViewBase {
                         }
 
                         if (cameraChanged) {
-                            let bounds = gMap.getProjection().getVisibleRegion().latLngBounds;
+              
                             owner.notifyCameraEvent(MapViewBase.cameraChangedEvent, {
                                 latitude: cameraPosition.target.latitude,
                                 longitude: cameraPosition.target.longitude,
                                 zoom: cameraPosition.zoom,
                                 bearing: cameraPosition.bearing,
-                                tilt: cameraPosition.tilt,
-                                bounds: {
-                                    northeast: Position.positionFromLatLng(bounds.northeast.latitude, bounds.northeast.longitude),
-                                    southwest: Position.positionFromLatLng(bounds.southwest.latitude, bounds.southwest.longitude),
-                                    bounds: {
-                                    northeast_latitude: bounds.northeast.latitude,
-                                    northeast_longitude:bounds.northeast.longitude,
-                                    southwest_latitude: bounds.southwest.latitude,
-                                    southwest_longitude:bounds.southwest.longitude
-                                    }
-                                }
+                                tilt: cameraPosition.tilt
+                               
                             });
                         }
 

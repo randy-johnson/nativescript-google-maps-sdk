@@ -170,7 +170,13 @@ export class MapView extends MapViewBase {
                                 tilt: cameraPosition.tilt,
                                 bounds: {
                                     northeast: Position.positionFromLatLng(bounds.northeast.latitude, bounds.northeast.longitude),
-                                    southwest: Position.positionFromLatLng(bounds.southwest.latitude, bounds.southwest.longitude)
+                                    southwest: Position.positionFromLatLng(bounds.southwest.latitude, bounds.southwest.longitude),
+                                    bounds: {
+                                    northeast_latitude: bounds.northeast.latitude,
+                                    northeast_longitude:bounds.northeast.longitude,
+                                    southwest_latitude: bounds.southwest.latitude,
+                                    southwest_longitude:bounds.southwest.longitude
+                                    }
                                 }
                             });
                         }

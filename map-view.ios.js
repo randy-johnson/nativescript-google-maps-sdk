@@ -50,12 +50,24 @@ var MapViewDelegateImpl = (function (_super) {
                 map_view_common_1.tiltProperty.nativeValueChange(owner, cameraPosition.viewingAngle);
             }
             if (cameraChanged) {
+                var bounds = gMap.getProjection().getVisibleRegion().latLngBounds;
                 owner.notifyCameraEvent(map_view_common_1.MapViewBase.cameraChangedEvent, {
                     latitude: cameraPosition.target.latitude,
                     longitude: cameraPosition.target.longitude,
                     zoom: cameraPosition.zoom,
                     bearing: cameraPosition.bearing,
-                    tilt: cameraPosition.viewingAngle
+                    tilt: cameraPosition.viewingAngle,
+                    bounds: {
+                                northeast: Position.positionFromLatLng(bounds.northeast.latitude, bounds.northeast.longitude),
+                                southwest: Position.positionFromLatLng(bounds.southwest.latitude, bounds.southwest.longitude),
+                                randy: 'yes1',
+                                bounds: {
+                                    northeast_latitude: bounds.northeast.latitude,
+                                    northeast_longitude: bounds.northeast.longitude,
+                                    southwest_latitude: bounds.southwest.latitude,
+                                    southwest_longitude: bounds.southwest.longitude
+                                }
+                            }
                 });
             }
             owner._processingCameraEvent = false;

@@ -50,7 +50,7 @@ var MapViewDelegateImpl = (function (_super) {
                 map_view_common_1.tiltProperty.nativeValueChange(owner, cameraPosition.viewingAngle);
             }
             if (cameraChanged) {
-                var bounds = gMap.getProjection().getVisibleRegion().latLngBounds;
+                var bounds = MapViewDelegateImpl.prototype.getProjection().getVisibleRegion().latLngBounds;
                 owner.notifyCameraEvent(map_view_common_1.MapViewBase.cameraChangedEvent, {
                     latitude: cameraPosition.target.latitude,
                     longitude: cameraPosition.target.longitude,

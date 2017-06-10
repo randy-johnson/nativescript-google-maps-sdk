@@ -66,7 +66,7 @@ if(application.ios) {
   GMSServices.provideAPIKey("PUT_API_KEY_HERE");
 }
 ```
-If you are using Angular, you need to modify the `main.ts` as follows:
+If you are using Angular, you need to modify the `app.module.ts` as follows:
 ```
 import * as platform from "platform";
 declare var GMSServices: any;
@@ -97,6 +97,8 @@ Modify your view by adding the namespace `xmlns:maps="nativescript-google-maps-s
 </Page>
 ```
 
+## Properties
+
 The following properties are available to you for adjusting camera view.
 
 Property       | Description
@@ -107,6 +109,8 @@ Property       | Description
 `bearing` | number
 `tilt` | number
 `padding` | array of numbers reflectig top, bottom, left and right paddings
+
+## Events
 
 The following events are available:
 
@@ -141,6 +145,9 @@ function onMapReady(args) {
   marker.snippet = "Australia";
   marker.userData = { index : 1};
   mapView.addMarker(marker);
+  
+  // Disabling zoom gestures
+  mapView.settings.zoomGesturesEnabled = false;
 }
 
 function onMarkerSelect(args) {
@@ -156,12 +163,31 @@ exports.onMarkerSelect = onMarkerSelect;
 exports.onCameraChanged = onCameraChanged;
 ```
 
+## UI Settings
+
+You can adjust the Map UI settings after mapReady by changing the below properties on `mapView.settings`
+
+Property       | Description
+-------------- |:---------------------------------
+`compassEnabled` | boolean - Whether the compass is enabled/disabled
+`indoorLevelPickerEnabled` | boolean - Whether the indoor level picker is enabled/disabled
+`mapToolbarEnabled` | boolean - Whether the indoor level picker is enabled/disabled ** ****Android only**** **
+`myLocationButtonEnabled` | boolean - Whether the my-location button is enabled/disabled
+`rotateGesturesEnabled` | boolean - Whether the compass is enabled/disabled
+`scrollGesturesEnabled` | boolean - Whether scroll gestures are enabled/disabled
+`tiltGesturesEnabled` | boolean - Whether tilt gestures are enabled/disabled
+`zoomControlsEnabled` | boolean - Whether the zoom controls are enabled/disabled ** ****Android only**** **
+`zoomGesturesEnabled` | boolean - Whether zoom gestures are enabled/disabled
+
+
 ## Styling
 Use `gMap.setStyle(style);` to change the map styling.
 
 For map styles, see [Google Maps Style Reference](https://developers.google.com/maps/documentation/android-api/style-reference) and the [Styling Wizard](https://mapstyle.withgoogle.com/).
 
 ## Using with Angular
+
+See angular demo code included [here](https://github.com/dapriett/nativescript-google-maps-sdk/tree/master/ng-demo)
 
 ```
 // /app/map-example.component.ts

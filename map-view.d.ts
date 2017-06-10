@@ -44,6 +44,10 @@ export class MapView extends View {
 
     public gMap: any;
 
+    public settings: UISettings;
+
+    public myLocationEnabled: boolean;
+
     public addMarker(marker: Marker): void;
 
     public removeMarker(marker: Marker): void;
@@ -78,6 +82,27 @@ export const zoomProperty: Property<MapView, number>;
 export const tiltProperty: Property<MapView, number>;
 export const paddingProperty: Property<MapView, number>;
 
+export class UISettings {
+    // Whether the compass is enabled/disabled.
+    compassEnabled: boolean;
+    // Whether the indoor level picker is enabled/disabled.
+    indoorLevelPickerEnabled: boolean;
+    // Whether the indoor level picker is enabled/disabled.
+    mapToolbarEnabled: boolean;
+    // Whether the my-location button is enabled/disabled.
+    myLocationButtonEnabled: boolean;
+    // Whether rotate gestures are enabled/disabled.
+    rotateGesturesEnabled: boolean;
+    // Whether scroll gestures are enabled/disabled.
+    scrollGesturesEnabled: boolean;
+    // Whether tilt gestures are enabled/disabled.
+    tiltGesturesEnabled: boolean;
+    // Whether the zoom controls are enabled/disabled.
+    zoomControlsEnabled: boolean;
+    // Whether zoom gestures are enabled/disabled
+    zoomGesturesEnabled: boolean;
+}
+
 export class Position {
     public latitude: number;
     public longitude: number;
@@ -99,13 +124,14 @@ export class Marker {
     public anchor: Array<number>;
     public title: string;
     public snippet: string;
-    public icon: Image;
+    public icon: Image|string;
     public alpha: number;
     public flat: boolean;
     public draggable: boolean;
     public visible: boolean;
     public zIndex: number;
     public showInfoWindow(): void;
+    public hideInfoWindow(): void;
     public userData: any;
     public _map: any;
     public ios: any;

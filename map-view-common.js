@@ -1,15 +1,5 @@
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var map_view_1 = require("./map-view");
 exports.StyleBase = map_view_1.Style;
 var view_1 = require("tns-core-modules/ui/core/view");
@@ -142,6 +132,12 @@ exports.tiltProperty = new properties_1.Property({ name: 'tilt', defaultValue: 0
 exports.tiltProperty.register(MapViewBase);
 exports.paddingProperty = new properties_1.Property({ name: 'padding', defaultValue: 0, valueChanged: onPaddingPropertyChanged, valueConverter: paddingValueConverter });
 exports.paddingProperty.register(MapViewBase);
+var UISettingsBase = (function () {
+    function UISettingsBase() {
+    }
+    return UISettingsBase;
+}());
+exports.UISettingsBase = UISettingsBase;
 var PositionBase = (function () {
     function PositionBase() {
     }

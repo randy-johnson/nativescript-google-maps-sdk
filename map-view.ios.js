@@ -1,15 +1,5 @@
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var map_view_common_1 = require("./map-view-common");
 var image_1 = require("tns-core-modules/ui/image");
 var imageSource = require("tns-core-modules/image-source");
@@ -30,7 +20,7 @@ var MapViewDelegateImpl = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     MapViewDelegateImpl.initWithOwner = function (owner) {
-        var handler = MapViewDelegateImpl["new"]();
+        var handler = MapViewDelegateImpl.new();
         handler._owner = owner;
         return handler;
     };
@@ -135,19 +125,21 @@ MapViewDelegateImpl.ObjCProtocols = [GMSMapViewDelegate];
 var MapView = (function (_super) {
     __extends(MapView, _super);
     function MapView() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
+        var _this = _super.call(this) || this;
         _this._markers = new Array();
+        _this.nativeView = GMSMapView.mapWithFrameCamera(CGRectZero, _this._createCameraPosition());
+        _this._delegate = MapViewDelegateImpl.initWithOwner(new WeakRef(_this));
+        _this.updatePadding();
         return _this;
     }
-    MapView.prototype.createNativeView = function () {
-        return GMSMapView.mapWithFrameCamera(CGRectZero, this._createCameraPosition());
+    MapView.prototype.onLoaded = function () {
+        _super.prototype.onLoaded.call(this);
+        this.nativeView.delegate = this._delegate;
+        this.notifyMapReady();
     };
-    MapView.prototype.initNativeView = function () {
-        this.nativeView = this.createNativeView();
-        this.nativeView.delegate = MapViewDelegateImpl.initWithOwner(new WeakRef(this));
-        setTimeout(function () {
-            this.notifyMapReady();
-        }.bind(this), 0);
+    MapView.prototype.onUnloaded = function () {
+        this.nativeView.delegate = null;
+        _super.prototype.onUnloaded.call(this);
     };
     MapView.prototype._createCameraPosition = function () {
         return GMSCameraPosition.cameraWithLatitudeLongitudeZoomBearingViewingAngle(this.latitude, this.longitude, this.zoom, this.bearing, this.tilt);
@@ -175,6 +167,24 @@ var MapView = (function (_super) {
     Object.defineProperty(MapView.prototype, "gMap", {
         get: function () {
             return this.nativeView;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MapView.prototype, "settings", {
+        get: function () {
+            return (this.nativeView) ? new UISettings(this.nativeView.settings) : null;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MapView.prototype, "myLocationEnabled", {
+        get: function () {
+            return (this.nativeView) ? this.nativeView.myLocationEnabled : false;
+        },
+        set: function (value) {
+            if (this.nativeView)
+                this.nativeView.myLocationEnabled = value;
         },
         enumerable: true,
         configurable: true
@@ -238,11 +248,119 @@ var MapView = (function (_super) {
     return MapView;
 }(map_view_common_1.MapViewBase));
 exports.MapView = MapView;
+var UISettings = (function (_super) {
+    __extends(UISettings, _super);
+    function UISettings(ios) {
+        var _this = _super.call(this) || this;
+        _this._ios = ios;
+        return _this;
+    }
+    Object.defineProperty(UISettings.prototype, "ios", {
+        get: function () {
+            return this._ios;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(UISettings.prototype, "compassEnabled", {
+        get: function () {
+            return this._ios.compassButton;
+        },
+        set: function (value) {
+            this._ios.compassButton = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(UISettings.prototype, "indoorLevelPickerEnabled", {
+        get: function () {
+            return this._ios.indoorPicker;
+        },
+        set: function (value) {
+            this._ios.indoorPicker = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(UISettings.prototype, "mapToolbarEnabled", {
+        get: function () {
+            return false;
+        },
+        set: function (value) {
+            if (value)
+                console.warn("Map toolbar not available on iOS");
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(UISettings.prototype, "myLocationButtonEnabled", {
+        get: function () {
+            return this._ios.myLocationButton;
+        },
+        set: function (value) {
+            this._ios.myLocationButton = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(UISettings.prototype, "rotateGesturesEnabled", {
+        get: function () {
+            return this._ios.rotateGestures;
+        },
+        set: function (value) {
+            this._ios.rotateGestures = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(UISettings.prototype, "scrollGesturesEnabled", {
+        get: function () {
+            return this._ios.scrollGestures;
+        },
+        set: function (value) {
+            this._ios.scrollGestures = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(UISettings.prototype, "tiltGesturesEnabled", {
+        get: function () {
+            return this._ios.tiltGestures;
+        },
+        set: function (value) {
+            this._ios.tiltGestures = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(UISettings.prototype, "zoomControlsEnabled", {
+        get: function () {
+            return false;
+        },
+        set: function (value) {
+            if (value)
+                console.warn("Zoom controls not available on iOS");
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(UISettings.prototype, "zoomGesturesEnabled", {
+        get: function () {
+            return this._ios.zoomGestures;
+        },
+        set: function (value) {
+            this._ios.zoomGestures = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    return UISettings;
+}(map_view_common_1.UISettingsBase));
+exports.UISettings = UISettings;
 var Bounds = (function (_super) {
     __extends(Bounds, _super);
     function Bounds() {
         return _super.call(this) || this;
-        // this._ios = GMSCoordinateBounds.alloc().initWithCoordinateCoordinate(new Position(), new Position());
     }
     Object.defineProperty(Bounds.prototype, "ios", {
         get: function () {
@@ -329,7 +447,7 @@ var Marker = (function (_super) {
         var _this = _super.call(this) || this;
         _this._alpha = 1;
         _this._visible = true;
-        _this._ios = GMSMarker["new"]();
+        _this._ios = GMSMarker.new();
         return _this;
     }
     Object.defineProperty(Marker.prototype, "position", {
@@ -384,6 +502,9 @@ var Marker = (function (_super) {
     });
     Marker.prototype.showInfoWindow = function () {
         this._ios.map.selectedMarker = this._ios;
+    };
+    Marker.prototype.hideInfoWindow = function () {
+        this._ios.map.selectedMarker = null;
     };
     Object.defineProperty(Marker.prototype, "icon", {
         get: function () {
@@ -468,7 +589,7 @@ var Polyline = (function (_super) {
     __extends(Polyline, _super);
     function Polyline() {
         var _this = _super.call(this) || this;
-        _this._ios = GMSPolyline["new"]();
+        _this._ios = GMSPolyline.new();
         _this._points = [];
         return _this;
     }
@@ -493,7 +614,7 @@ var Polyline = (function (_super) {
         configurable: true
     });
     Polyline.prototype.loadPoints = function () {
-        var points = GMSMutablePath["new"]();
+        var points = GMSMutablePath.new();
         this._points.forEach(function (point) {
             points.addCoordinate(point.ios);
         }.bind(this));
@@ -547,7 +668,7 @@ var Polygon = (function (_super) {
     __extends(Polygon, _super);
     function Polygon() {
         var _this = _super.call(this) || this;
-        _this._ios = GMSPolygon["new"]();
+        _this._ios = GMSPolygon.new();
         _this._points = [];
         return _this;
     }
@@ -572,7 +693,7 @@ var Polygon = (function (_super) {
         configurable: true
     });
     Polygon.prototype.loadPoints = function () {
-        var points = GMSMutablePath["new"]();
+        var points = GMSMutablePath.new();
         this._points.forEach(function (point) {
             points.addCoordinate(point.ios);
         }.bind(this));
@@ -627,7 +748,7 @@ var Circle = (function (_super) {
     __extends(Circle, _super);
     function Circle() {
         var _this = _super.call(this) || this;
-        _this._ios = GMSCircle["new"]();
+        _this._ios = GMSCircle.new();
         return _this;
     }
     Object.defineProperty(Circle.prototype, "clickable", {

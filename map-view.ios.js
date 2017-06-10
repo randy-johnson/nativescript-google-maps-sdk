@@ -55,7 +55,18 @@ var MapViewDelegateImpl = (function (_super) {
                     longitude: cameraPosition.target.longitude,
                     zoom: cameraPosition.zoom,
                     bearing: cameraPosition.bearing,
-                    tilt: cameraPosition.viewingAngle
+                    tilt: cameraPosition.viewingAngle,
+                    bounds: {
+                                northeast: Position.positionFromLatLng(0, 0),
+                                southwest: Position.positionFromLatLng(0, 0),
+                                randy: 'yes1',
+                                bounds: {
+                                    northeast_latitude: 67.57192898685,
+                                    northeast_longitude: -9.5383339002728,
+                                    southwest_latitude: 4.0171931035938,
+                                    southwest_longitude: -146.14547029138
+                                }
+                            }
                 });
             }
             owner._processingCameraEvent = false;
